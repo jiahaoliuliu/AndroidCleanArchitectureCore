@@ -39,7 +39,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':domain')
     implementation project(path: ':datalayer')
-    compile project(path: ':networklayer')
+    // TODO: Use injection for the network layer
+    implementation project(path: ':networklayer')
 
     // Core libraries
     implementation Libs.support_appcompat_v7
