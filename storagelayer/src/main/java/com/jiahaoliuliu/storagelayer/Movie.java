@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.jiahaoliuliu.domain.IMovie;
 
-@Entity
+@Entity(tableName = "movie_table")
 public class Movie implements IMovie {
 
     @PrimaryKey(autoGenerate = true)
