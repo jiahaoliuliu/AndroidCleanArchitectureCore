@@ -2,13 +2,15 @@ package com.jiahaoliuliu.storagelayer;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.jiahaoliuliu.domain.IMovie;
 
 @Entity(tableName = "movie_table")
 public class Movie implements IMovie {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     private String id;
 
     private String title;

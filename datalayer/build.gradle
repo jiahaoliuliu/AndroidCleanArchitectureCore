@@ -39,6 +39,12 @@ dependencies {
     implementation Libs.dagger_support
     annotationProcessor AnnotationProcessor.dagger
 
+    implementation Libs.room
+    annotationProcessor AnnotationProcessor.room
+
+    implementation Libs.liveData
+    annotationProcessor AnnotationProcessor.liveData
+
     testImplementation Tests.junit
     androidTestImplementation Tests.testRunner
     androidTestImplementation Tests.espresso

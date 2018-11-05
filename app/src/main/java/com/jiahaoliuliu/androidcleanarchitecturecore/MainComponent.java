@@ -13,7 +13,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Component(modules = {
-        MoviesListModule.class, MoviesRepositoryModule.class,
+        ApplicationModule.class, MoviesListModule.class,
+        MoviesRepositoryModule.class,
         // TODO: Add repository as subcomponent so the app module does
         // not depends on the network module
         NetworkModule.class
