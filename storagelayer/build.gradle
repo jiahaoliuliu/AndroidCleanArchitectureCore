@@ -35,6 +35,8 @@ dependencies {
     implementation Libs.dagger
     annotationProcessor AnnotationProcessor.dagger
 
+    implementation Libs.support_appcompat_v7
+
     // Live data
     implementation Libs.liveData
     annotationProcessor AnnotationProcessor.liveData
