@@ -1,4 +1,29 @@
-apply plugin: 'java-library'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -6,13 +31,15 @@ dependencies {
     implementation project(path: ':networklayer')
     implementation project(path: ':storagelayer')
 
+    implementation Libs.support_appcompat_v7
+
     implementation Libs.rxjava
 
     implementation Libs.dagger
     implementation Libs.dagger_support
     annotationProcessor AnnotationProcessor.dagger
 
+    testImplementation Tests.junit
+    androidTestImplementation Tests.testRunner
+    androidTestImplementation Tests.espresso
 }
-
-sourceCompatibility = Versions.java
-targetCompatibility = Versions.java
