@@ -1,6 +1,5 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore.movieslist;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +60,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
         }
 
         public void setMovie(IMovie movie) {
-            picasso.load(movie.getImageUrl()).into(image);
+            picasso.load(movie.getAbsoluteImageUrl()).into(image);
             this.title.setText(movie.getTitle());
             this.description.setText(movie.getDescription());
         }

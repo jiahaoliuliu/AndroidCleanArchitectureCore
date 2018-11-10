@@ -38,7 +38,7 @@ public class MoviesRepository implements IMoviesRepository {
 
     @Override
     public Single<List<? extends IMovie>> retrieveMoviesList() {
-        Single<List<? extends IMovie>> backendSource;
+        Single<List<? extends IMovie>> backendSource = retrieveMoviesListFromBackend();
         Single<List<? extends IMovie>> storageLayerSource;
         Single<List<? extends IMovie>> cacheSource;
 
