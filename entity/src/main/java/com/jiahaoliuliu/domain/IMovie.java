@@ -12,4 +12,6 @@ public interface IMovie {
 
     String getImageUrl();
 
+    String getRelativeImageUrl();
+
 }

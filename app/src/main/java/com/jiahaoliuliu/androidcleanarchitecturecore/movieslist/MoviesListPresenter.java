@@ -32,14 +32,14 @@ public class MoviesListPresenter implements MoviesListContract.Presenter {
     @Override
     public void retrieveMoviesList() {
         compositeDisposable.add(model.retrieveMoviesList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movieslist -> view.showMoviesList(movieslist),
-                        throwable -> {
-                            // TODO: Show the error on the screen
-                            Log.e(TAG, "Error getting the list of the movies from backend ", throwable);
-                        }));
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                moviesList -> view.showMoviesList(moviesList),
+                throwable -> {
+                    // TODO: Show the error on the screen
+                    Log.e(TAG, "Error getting the list of the movies from backend ", throwable);
+                }));
     }
 
     @Override

@@ -26,6 +26,13 @@ public class Movie implements IMovie {
         this.imageUrl = imageUrl;
     }
 
+    public Movie(IMovie anotherMovie) {
+        setId(anotherMovie.getId());
+        setTitle(anotherMovie.getTitle());
+        setDescription(anotherMovie.getDescription());
+        setImageUrl(anotherMovie.getImageUrl());
+    }
+
     @Override
     public String getId() {
         return id;
@@ -44,6 +51,11 @@ public class Movie implements IMovie {
     @Override
     public String getImageUrl() {
         return ImagesBaseUrl + imageUrl;
+    }
+
+    @Override
+    public String getRelativeImageUrl() {
+        return imageUrl;
     }
 
     public void setId(String id) {
