@@ -1,6 +1,5 @@
 package com.jiahaoliuliu.storagelayer;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -9,6 +8,8 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
+
+import io.reactivex.Single;
 
 @Dao
 public abstract class MovieDao {
@@ -37,5 +38,5 @@ public abstract class MovieDao {
     public abstract void deleteAllMovies();
 
     @Query("Select * from movie_table order by id desc")
-    public abstract List<Movie> getAllMovies();
+    public abstract Single<List<Movie>> getAllMovies();
 }

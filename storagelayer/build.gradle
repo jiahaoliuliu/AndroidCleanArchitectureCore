@@ -37,12 +37,12 @@ dependencies {
 
     implementation Libs.support_appcompat_v7
 
-    // Live data
-    implementation Libs.liveData
-    annotationProcessor AnnotationProcessor.liveData
+    // RxJava
+    implementation Libs.rxjava
 
     // Room
     implementation Libs.room
+    implementation Libs.roomRxJava
     annotationProcessor AnnotationProcessor.room
 
     testImplementation Tests.junit

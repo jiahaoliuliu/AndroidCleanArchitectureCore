@@ -45,7 +45,7 @@ public class MoviesRepository implements IMoviesRepository {
     public Single<? extends List<? extends IMovie>> retrieveMoviesList() {
         // List of Priorities
         Single<? extends List<? extends IMovie>> backendSource = retrieveMoviesListFromBackend();
-//        Single<? extends List<? extends IMovie>> storageSource = retrieveMoviesListFromStorage();
+        Single<? extends List<? extends IMovie>> storageSource = retrieveMoviesListFromStorage();
         Single<? extends List<? extends IMovie>> cacheSource = retrieveMoviesListFromCache();
 
 //        Single.concat(backendSource, storageSource, cacheSource)
@@ -73,23 +73,10 @@ public class MoviesRepository implements IMoviesRepository {
     }
 
     private Single<? extends List<? extends IMovie>> retrieveMoviesListFromStorage() {
-        return Single.just(moviesDatabase.movieDao().getAllMovies())
-//                .map(movies -> moviesList = movies);
-//                .map(movies -> {
-//                    moviesList = movies;
-//                    return moviesList;
-//                });
-//        .map(this::saveMoviesListToCache);
-        .observeOn(Schedulers.io())
-        .doOnSuccess(new Consumer<List<? extends Movie>>() {
-            @Override
-            public void accept(List<? extends Movie> movies) throws Exception {
-
-            }
-        });
+        return moviesDatabase.movieDao().getAllMovies()
+                .doOnSuccess(this::saveMoviesListToCache);
     }
-    private List<? extends IMovie> saveMoviesListToCache(List<? extends IMovie> newMovieList) {
+    private void saveMoviesListToCache(List<? extends IMovie> newMovieList) {
         this.moviesList = newMovieList;
-        return moviesList;
     }
 }
