@@ -10,9 +10,14 @@ import com.jiahaoliuliu.storagelayer.Movie;
 import com.jiahaoliuliu.storagelayer.MoviesDatabase;
 import com.jiahaoliuliu.storagelayer.MoviesDatabaseModule;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class MoviesRepository implements IMoviesRepository {
 
@@ -26,7 +31,7 @@ public class MoviesRepository implements IMoviesRepository {
     private MoviesDatabaseModule moviesDatabaseModule;
     private MoviesDatabase moviesDatabase;
     // Temporal memory for the movies list
-    private List<? extends IMovie> moviesList;
+    private List<? extends IMovie> moviesList = new ArrayList<>();
 
     public MoviesRepository(Context context) {
         this.context = context;
@@ -37,28 +42,54 @@ public class MoviesRepository implements IMoviesRepository {
     }
 
     @Override
-    public Single<List<? extends IMovie>> retrieveMoviesList() {
-        Single<List<? extends IMovie>> backendSource = retrieveMoviesListFromBackend();
-        Single<List<? extends IMovie>> storageLayerSource;
-        Single<List<? extends IMovie>> cacheSource;
+    public Single<? extends List<? extends IMovie>> retrieveMoviesList() {
+        // List of Priorities
+        Single<? extends List<? extends IMovie>> backendSource = retrieveMoviesListFromBackend();
+//        Single<? extends List<? extends IMovie>> storageSource = retrieveMoviesListFromStorage();
+        Single<? extends List<? extends IMovie>> cacheSource = retrieveMoviesListFromCache();
 
+//        Single.concat(backendSource, storageSource, cacheSource)
+//                .filter(source -> {source.})
         // TODO: Check if the network is available. If not, use the cache or memory
         return retrieveMoviesListFromBackend();
     }
 
-    public Single<List<? extends IMovie>> retrieveMoviesListFromBackend() {
+    private Single<? extends List<? extends IMovie>> retrieveMoviesListFromBackend() {
         return tmdbService.getMoviesList()
-            .map(moviesListBackend -> {
+             .map(moviesListBackend -> moviesListBackend.getMoviesList())
+             .doOnSuccess(moviesList -> {
                 // Updates the internal cache
-                moviesList = moviesListBackend.getMoviesList();
+                saveMoviesListToCache(moviesList);
                 // Save the content into the database
                 for (IMovie movie: moviesList) {
                     Log.v(TAG, "Trying to save " + movie + " into the database");
                     moviesDatabase.movieDao().upsert(new Movie(movie));
                 }
-
-                //return the movies list
-                return moviesList;
             });
+    }
+
+    private Single<? extends List<? extends IMovie>> retrieveMoviesListFromCache() {
+        return Single.just(moviesList);
+    }
+
+    private Single<? extends List<? extends IMovie>> retrieveMoviesListFromStorage() {
+        return Single.just(moviesDatabase.movieDao().getAllMovies())
+//                .map(movies -> moviesList = movies);
+//                .map(movies -> {
+//                    moviesList = movies;
+//                    return moviesList;
+//                });
+//        .map(this::saveMoviesListToCache);
+        .observeOn(Schedulers.io())
+        .doOnSuccess(new Consumer<List<? extends Movie>>() {
+            @Override
+            public void accept(List<? extends Movie> movies) throws Exception {
+
+            }
+        });
+    }
+    private List<? extends IMovie> saveMoviesListToCache(List<? extends IMovie> newMovieList) {
+        this.moviesList = newMovieList;
+        return moviesList;
     }
 }

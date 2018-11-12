@@ -20,7 +20,7 @@ public class MoviesListModel implements MoviesListContract.Model {
     }
 
     @Override
-    public Single<List<? extends IMovie>> retrieveMoviesList() {
+    public Single<? extends List<? extends IMovie>> retrieveMoviesList() {
         return moviesRepository.retrieveMoviesList();
     }
 }

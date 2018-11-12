@@ -37,5 +37,5 @@ public abstract class MovieDao {
     public abstract void deleteAllMovies();
 
     @Query("Select * from movie_table order by id desc")
-    public abstract LiveData<List<Movie>> getAllMovies();
+    public abstract List<Movie> getAllMovies();
 }
