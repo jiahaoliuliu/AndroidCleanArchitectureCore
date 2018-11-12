@@ -54,7 +54,7 @@ public class MoviesRepository implements IMoviesRepository {
                 // Save the content into the database
                 for (IMovie movie: moviesList) {
                     Log.v(TAG, "Trying to save " + movie + " into the database");
-                    moviesDatabase.movieDao().insert(new Movie(movie));
+                    moviesDatabase.movieDao().upsert(new Movie(movie));
                 }
 
                 //return the movies list
