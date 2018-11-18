@@ -12,22 +12,13 @@ import com.jiahaoliuliu.storagelayer.MoviesDatabaseModule;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math;
 
-import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 public class MoviesRepository implements IMoviesRepository {
 
     private static final String TAG = "MoviesRepository";
 
-    private Context context;
     // TODO: Inject this
     private NetworkModule networkModule;
     private ITMDBService tmdbService;
@@ -35,10 +26,9 @@ public class MoviesRepository implements IMoviesRepository {
     private MoviesDatabaseModule moviesDatabaseModule;
     private MoviesDatabase moviesDatabase;
     // Temporal memory for the movies list
-    private List<? extends IMovie> moviesList = new ArrayList<>();
+    private List<? extends IMovie> memoryCache = new ArrayList<>();
 
     public MoviesRepository(Context context) {
-        this.context = context;
         this.networkModule = new NetworkModule();
         this.tmdbService = networkModule.provideITmdbService();
         this.moviesDatabaseModule = new MoviesDatabaseModule();
@@ -52,14 +42,12 @@ public class MoviesRepository implements IMoviesRepository {
         Single<? extends List<? extends IMovie>> storageSource = retrieveMoviesListFromStorage();
         Single<? extends List<? extends IMovie>> cacheSource = retrieveMoviesListFromCache();
 
-        return Single.concat(backendSource, storageSource,cacheSource)
-                .filter(source -> {
-                    return !source.isEmpty();
-                })
-                .first(moviesList);
+        return Single.concat(backendSource, storageSource, cacheSource)
+                .filter(source -> !source.isEmpty())
+                .first(memoryCache);
     }
 
-    private Observable<? extends List<? extends IMovie>> retrieveMoviesListFromBackend() {
+    private Single<? extends List<? extends IMovie>> retrieveMoviesListFromBackend() {
         return tmdbService.getMoviesList()
              .map(moviesListBackend -> moviesListBackend.getMoviesList())
              .doOnSuccess(moviesList -> {
@@ -69,37 +57,27 @@ public class MoviesRepository implements IMoviesRepository {
                 for (IMovie movie: moviesList) {
                     Log.v(TAG, "Trying to save " + movie + " into the database");
                     moviesDatabase.movieDao().upsert(new Movie(movie));
-             }})
-            .onErrorResumeNext(Observable.empty().single(moviesList));
-
-        Single<Integer> numbers = Single.just(() -> 1, (state, emitter) -> {
-            emitter.onNext(state);
-
-            return state + 1;
-        });
-
-        numbers.scan((number1, number2) -> Math.abs(number1))
-                .onErrorResumeNext(Observable.empty())
-                .subscribe(
-                        System.out::println,
-                        error -> System.err.println("onError should not be printed!"));
+                }
+             }).onErrorResumeNext(throwable -> {
+                 Log.e(TAG, "Error retrieving data from backend", throwable);
+                 return Single.just(new ArrayList<>());
+             });
     }
 
     private Single<? extends List<? extends IMovie>> retrieveMoviesListFromCache() {
-        return Single.just(moviesList);
+        return Single.just(memoryCache);
     }
 
     private Single<? extends List<? extends IMovie>> retrieveMoviesListFromStorage() {
         return moviesDatabase.movieDao().getAllMovies()
-                .doOnSuccess(new Consumer<List<Movie>>() {
-                    @Override
-                    public void accept(List<Movie> movies) throws Exception {
-                        saveMoviesListToCache(movies);
-                    }
+                .doOnSuccess(moviesList -> saveMoviesListToCache(moviesList))
+                .onErrorResumeNext(throwable -> {
+                   Log.e(TAG, "Error retrieving data from the database ", throwable);
+                   return Single.just(new ArrayList<>());
                 });
-//                .doOnSuccess(this::saveMoviesListToCache);
     }
+
     private void saveMoviesListToCache(List<? extends IMovie> newMovieList) {
-        this.moviesList = newMovieList;
+        this.memoryCache = newMovieList;
     }
 }
