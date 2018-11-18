@@ -1,5 +1,7 @@
 package com.jiahaoliuliu.datalayer.moviesrepository;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -10,7 +12,7 @@ public class MoviesRepositoryModule {
 
     @Provides
     @Singleton
-    IMoviesRepository providesMoviesRepository() {
-        return new MoviesRepository();
+    IMoviesRepository providesMoviesRepository(Context context) {
+        return new MoviesRepository(context);
     }
 }

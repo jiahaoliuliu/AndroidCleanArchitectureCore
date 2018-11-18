@@ -44,6 +44,6 @@ public interface MoviesListContract {
          * Method used to retrieve a list of movies
          * @return Single of a list of movies
          */
-        Single<List<? extends IMovie>> retrieveMoviesList();
+        Single<? extends List<? extends IMovie>> retrieveMoviesList();
     }
 }

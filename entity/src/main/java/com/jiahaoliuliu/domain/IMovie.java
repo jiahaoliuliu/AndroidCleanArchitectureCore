@@ -12,4 +12,11 @@ public interface IMovie {
 
     String getImageUrl();
 
+    /**
+     * Get the absolute url of the image
+     * @return
+     *  The absolute url of the image
+     */
+    String getAbsoluteImageUrl();
+
 }

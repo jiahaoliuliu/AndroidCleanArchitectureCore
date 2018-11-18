@@ -16,5 +16,5 @@ public interface IMoviesRepository {
      * temporal memory, either from the database
      * @return a list of movies
      */
-    Single<List<? extends IMovie>> retrieveMoviesList();
+    Single<? extends List<? extends IMovie>> retrieveMoviesList();
 }

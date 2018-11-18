@@ -53,6 +53,11 @@ public class Movie implements IMovie {
 
     @Override
     public String getImageUrl() {
+        return imageUrl;
+    }
+
+    @Override
+    public String getAbsoluteImageUrl() {
         return ImagesBaseUrl + imageUrl;
     }
 
