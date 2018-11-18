@@ -1,10 +1,7 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore;
 
 import com.jiahaoliuliu.androidcleanarchitecturecore.movieslist.MoviesListActivity;
-import com.jiahaoliuliu.androidcleanarchitecturecore.movieslist.MoviesListModel;
 import com.jiahaoliuliu.androidcleanarchitecturecore.movieslist.MoviesListModule;
-import com.jiahaoliuliu.androidcleanarchitecturecore.movieslist.MoviesListPresenter;
-import com.jiahaoliuliu.datalayer.moviesrepository.MoviesRepository;
 import com.jiahaoliuliu.datalayer.moviesrepository.MoviesRepositoryModule;
 import com.jiahaoliuliu.networklayer.NetworkModule;
 
@@ -23,10 +20,4 @@ import dagger.Component;
 public interface MainComponent {
 
     void inject(MoviesListActivity moviesListActivity);
-
-    void inject(MoviesListPresenter moviesListPresenter);
-
-    void inject(MoviesListModel moviesListModel);
-
-    void inject(MoviesRepository moviesRepository);
 }

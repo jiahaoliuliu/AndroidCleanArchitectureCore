@@ -12,11 +12,11 @@ import io.reactivex.Single;
 
 public class MoviesListModel implements MoviesListContract.Model {
 
-    @Inject
-    IMoviesRepository moviesRepository;
+    private final IMoviesRepository moviesRepository;
 
-    public MoviesListModel() {
-        MainApplication.getMainComponent().inject(this);
+    @Inject
+    public MoviesListModel(IMoviesRepository moviesRepository) {
+        this.moviesRepository = moviesRepository;
     }
 
     @Override
