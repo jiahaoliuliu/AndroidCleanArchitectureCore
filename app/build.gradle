@@ -63,4 +63,5 @@ dependencies {
     testImplementation Tests.mockito
     androidTestImplementation Tests.testRunner
     androidTestImplementation Tests.espresso
+    compile project(path: ':storagelayer')
 }

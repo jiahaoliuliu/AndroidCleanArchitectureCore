@@ -1,6 +1,7 @@
 package com.jiahaoliuliu.datalayer.moviesrepository;
 
-import android.content.Context;
+import com.jiahaoliuliu.networklayer.ITMDBService;
+import com.jiahaoliuliu.storagelayer.MoviesDatabase;
 
 import javax.inject.Singleton;
 
@@ -12,7 +13,7 @@ public class MoviesRepositoryModule {
 
     @Provides
     @Singleton
-    IMoviesRepository providesMoviesRepository(Context context) {
-        return new MoviesRepository(context);
+    IMoviesRepository providesMoviesRepository(ITMDBService tmdbService, MoviesDatabase moviesDatabase) {
+        return new MoviesRepository(tmdbService, moviesDatabase);
     }
 }
