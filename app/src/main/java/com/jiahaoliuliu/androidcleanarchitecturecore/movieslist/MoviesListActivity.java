@@ -19,7 +19,7 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
     private static final String TAG = "MoviesListActivity";
 
     @Inject
-    MoviesListContract.Presenter presenter;
+    protected MoviesListContract.Presenter presenter;
 
     private RecyclerView recyclerView;
     private MoviesListAdapter moviesListAdapter;

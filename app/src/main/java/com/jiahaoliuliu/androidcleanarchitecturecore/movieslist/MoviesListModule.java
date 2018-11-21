@@ -1,5 +1,7 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore.movieslist;
 
+import com.jiahaoliuliu.datalayer.moviesrepository.IMoviesRepository;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -10,13 +12,13 @@ public class MoviesListModule {
 
     @Provides
     @Singleton
-    MoviesListContract.Presenter providePresenter() {
-        return new MoviesListPresenter();
+    MoviesListContract.Presenter providePresenter(MoviesListContract.Model model) {
+        return new MoviesListPresenter(model);
     }
 
     @Provides
     @Singleton
-    MoviesListContract.Model provideModel() {
-        return new MoviesListModel();
+    MoviesListContract.Model provideModel(IMoviesRepository moviesRepository) {
+        return new MoviesListModel(moviesRepository);
     }
 }

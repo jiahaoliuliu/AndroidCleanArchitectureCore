@@ -2,8 +2,6 @@ package com.jiahaoliuliu.androidcleanarchitecturecore.movieslist;
 
 import android.util.Log;
 
-import com.jiahaoliuliu.androidcleanarchitecturecore.MainApplication;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -14,14 +12,14 @@ public class MoviesListPresenter implements MoviesListContract.Presenter {
 
     private static final String TAG = "MoviesListPresenter";
 
-    @Inject
-    MoviesListContract.Model model;
+    private final MoviesListContract.Model model;
 
     private MoviesListContract.View view;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MoviesListPresenter() {
-        MainApplication.getMainComponent().inject(this);
+    @Inject
+    public MoviesListPresenter(MoviesListContract.Model model) {
+        this.model = model;
     }
 
     @Override

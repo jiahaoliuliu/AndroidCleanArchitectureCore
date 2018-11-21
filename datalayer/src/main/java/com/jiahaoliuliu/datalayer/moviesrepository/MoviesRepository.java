@@ -1,14 +1,11 @@
 package com.jiahaoliuliu.datalayer.moviesrepository;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.jiahaoliuliu.domain.IMovie;
 import com.jiahaoliuliu.networklayer.ITMDBService;
-import com.jiahaoliuliu.networklayer.NetworkModule;
 import com.jiahaoliuliu.storagelayer.Movie;
 import com.jiahaoliuliu.storagelayer.MoviesDatabase;
-import com.jiahaoliuliu.storagelayer.MoviesDatabaseModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +16,14 @@ public class MoviesRepository implements IMoviesRepository {
 
     private static final String TAG = "MoviesRepository";
 
-    // TODO: Inject this
-    private NetworkModule networkModule;
-    private ITMDBService tmdbService;
-    // TODO: Inject this
-    private MoviesDatabaseModule moviesDatabaseModule;
-    private MoviesDatabase moviesDatabase;
+    private final ITMDBService tmdbService;
+    private final MoviesDatabase moviesDatabase;
     // Temporal memory for the movies list
     private List<? extends IMovie> memoryCache = new ArrayList<>();
 
-    public MoviesRepository(Context context) {
-        this.networkModule = new NetworkModule();
-        this.tmdbService = networkModule.provideITmdbService();
-        this.moviesDatabaseModule = new MoviesDatabaseModule();
-        this.moviesDatabase = moviesDatabaseModule.provideMoviesDatabase(context);
+    public MoviesRepository(ITMDBService tmdbService, MoviesDatabase moviesDatabase) {
+        this.tmdbService = tmdbService;
+        this.moviesDatabase = moviesDatabase;
     }
 
     @Override

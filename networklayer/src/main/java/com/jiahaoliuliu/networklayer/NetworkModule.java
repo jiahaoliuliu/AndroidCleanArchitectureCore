@@ -1,5 +1,7 @@
 package com.jiahaoliuliu.networklayer;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
