@@ -13,7 +13,6 @@ public class MoviesDatabaseModule {
 
     private MoviesDatabase moviesDatabase;
 
-    // TODO: Add it into the module
     @Provides
     @Singleton
     public MoviesDatabase provideMoviesDatabase(Context context) {

@@ -1,6 +1,5 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore.movieslist;
 
-import com.jiahaoliuliu.androidcleanarchitecturecore.MainApplication;
 import com.jiahaoliuliu.datalayer.moviesrepository.IMoviesRepository;
 import com.jiahaoliuliu.domain.IMovie;
 
