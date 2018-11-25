@@ -2,12 +2,9 @@ package com.jiahaoliuliu.androidcleanarchitecturecore.movieslist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.jiahaoliuliu.androidcleanarchitecturecore.R;
 import com.jiahaoliuliu.androidcleanarchitecturecore.databinding.MovieItemBinding;
 import com.jiahaoliuliu.domain.IMovie;
 import com.squareup.picasso.Picasso;
@@ -38,8 +35,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
 
         MovieItemBinding movieItemBinding =
                 MovieItemBinding.inflate(layoutInflater, parent, false);
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.movie_item, parent, false);
         return new MovieHolder(movieItemBinding);
     }
 
@@ -47,7 +42,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
     public void onBindViewHolder(MovieHolder holder, int position) {
         IMovie movie = moviesList.get(position);
         holder.bind(movie);
-//        holder.setMovie(movie);
     }
 
     @Override
@@ -67,9 +61,9 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
         }
 
         public void bind(IMovie movie) {
-            picasso.load(movie.getAbsoluteImageUrl()).into(image);
             movieItemBinding.setMovie(movie);
             movieItemBinding.executePendingBindings();
+            picasso.load(movie.getAbsoluteImageUrl()).into(image);
         }
     }
 }
