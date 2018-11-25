@@ -21,6 +21,10 @@ android {
         sourceCompatibility Versions.androidJavaVersion
         targetCompatibility Versions.androidJavaVersion
     }
+
+    dataBinding{
+        enabled = true
+    }
 }
 
 configurations.all {
