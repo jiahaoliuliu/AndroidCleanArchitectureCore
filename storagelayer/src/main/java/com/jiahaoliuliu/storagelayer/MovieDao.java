@@ -37,6 +37,6 @@ public abstract class MovieDao {
     @Query("Delete from movie_table")
     public abstract void deleteAllMovies();
 
-    @Query("Select * from movie_table order by id desc")
+    @Query("Select * from movie_table order by timeStamp asc")
     public abstract Single<List<Movie>> getAllMovies();
 }
