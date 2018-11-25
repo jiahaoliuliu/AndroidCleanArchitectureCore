@@ -56,33 +56,20 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
     }
 
     class MovieHolder extends RecyclerView.ViewHolder {
-        private MovieItemBinding movieItemBinding;
 
-//        private ImageView image;
-//        private TextView title;
-//        private TextView description;
-//
-//        public MovieHolder(View itemView) {
-//            super(itemView);
-//            this.image = itemView.findViewById(R.id.movie_image);
-//            this.title = itemView.findViewById(R.id.title);
-//            this.description = itemView.findViewById(R.id.description);
-//        }
+        private MovieItemBinding movieItemBinding;
+        private ImageView image;
 
         public MovieHolder(MovieItemBinding movieItemBinding) {
             super(movieItemBinding.getRoot());
             this.movieItemBinding = movieItemBinding;
+            this.image = movieItemBinding.movieImage;
         }
 
         public void bind(IMovie movie) {
+            picasso.load(movie.getAbsoluteImageUrl()).into(image);
             movieItemBinding.setMovie(movie);
             movieItemBinding.executePendingBindings();
         }
-
-//        public void setMovie(IMovie movie) {
-//            picasso.load(movie.getAbsoluteImageUrl()).into(image);
-//            this.title.setText(movie.getTitle());
-//            this.description.setText(movie.getDescription());
-//        }
     }
 }
