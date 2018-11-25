@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.jiahaoliuliu.domain.IMovie;
 
+import java.util.Date;
+
 @Entity(tableName = "movie_table")
 public class Movie implements IMovie {
 
@@ -19,16 +21,19 @@ public class Movie implements IMovie {
 
     private String imageUrl;
 
-    public Movie(String id, String title, String description, String imageUrl) {
+    private long timeStamp;
+
+    public Movie(String id, String title, String description, String imageUrl, long timeStamp) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.timeStamp = timeStamp;
     }
 
     public Movie(IMovie anotherMovie) {
         this(anotherMovie.getId(), anotherMovie.getTitle(), anotherMovie.getDescription(),
-                anotherMovie.getImageUrl());
+                anotherMovie.getImageUrl(), new Date().getTime());
     }
 
     @Override
@@ -68,6 +73,39 @@ public class Movie implements IMovie {
         this.description = description;
     }
 
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        if (timeStamp != movie.timeStamp) return false;
+        if (!id.equals(movie.id)) return false;
+        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
+        if (description != null ? !description.equals(movie.description) : movie.description != null)
+            return false;
+        return imageUrl != null ? imageUrl.equals(movie.imageUrl) : movie.imageUrl == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
+        result = 31 * result + (int) (timeStamp ^ (timeStamp >>> 32));
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -75,6 +113,7 @@ public class Movie implements IMovie {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", timeStamp=" + timeStamp +
                 '}';
     }
 }
