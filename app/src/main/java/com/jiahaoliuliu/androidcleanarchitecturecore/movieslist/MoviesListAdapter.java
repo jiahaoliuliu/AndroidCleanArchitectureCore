@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jiahaoliuliu.androidcleanarchitecturecore.R;
+import com.jiahaoliuliu.androidcleanarchitecturecore.databinding.MovieItemBinding;
 import com.jiahaoliuliu.domain.IMovie;
 import com.squareup.picasso.Picasso;
 
@@ -31,15 +32,22 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
 
     @Override
     public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_item, parent, false);
-        return new MovieHolder(itemView);
+        // create a new view
+        LayoutInflater layoutInflater =
+                LayoutInflater.from(parent.getContext());
+
+        MovieItemBinding movieItemBinding =
+                MovieItemBinding.inflate(layoutInflater, parent, false);
+//        View itemView = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.movie_item, parent, false);
+        return new MovieHolder(movieItemBinding);
     }
 
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
         IMovie movie = moviesList.get(position);
-        holder.setMovie(movie);
+        holder.bind(movie);
+//        holder.setMovie(movie);
     }
 
     @Override
@@ -48,21 +56,33 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
     }
 
     class MovieHolder extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView title;
-        private TextView description;
+        private MovieItemBinding movieItemBinding;
 
-        public MovieHolder(View itemView) {
-            super(itemView);
-            this.image = itemView.findViewById(R.id.movie_image);
-            this.title = itemView.findViewById(R.id.title);
-            this.description = itemView.findViewById(R.id.description);
+//        private ImageView image;
+//        private TextView title;
+//        private TextView description;
+//
+//        public MovieHolder(View itemView) {
+//            super(itemView);
+//            this.image = itemView.findViewById(R.id.movie_image);
+//            this.title = itemView.findViewById(R.id.title);
+//            this.description = itemView.findViewById(R.id.description);
+//        }
+
+        public MovieHolder(MovieItemBinding movieItemBinding) {
+            super(movieItemBinding.getRoot());
+            this.movieItemBinding = movieItemBinding;
         }
 
-        public void setMovie(IMovie movie) {
-            picasso.load(movie.getAbsoluteImageUrl()).into(image);
-            this.title.setText(movie.getTitle());
-            this.description.setText(movie.getDescription());
+        public void bind(IMovie movie) {
+            movieItemBinding.setMovie(movie);
+            movieItemBinding.executePendingBindings();
         }
+
+//        public void setMovie(IMovie movie) {
+//            picasso.load(movie.getAbsoluteImageUrl()).into(image);
+//            this.title.setText(movie.getTitle());
+//            this.description.setText(movie.getDescription());
+//        }
     }
 }
