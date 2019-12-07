@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Versions.compileSdkVersion
@@ -22,7 +25,7 @@ android {
         targetCompatibility Versions.androidJavaVersion
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -30,12 +33,12 @@ android {
 configurations.all {
     resolutionStrategy.eachDependency {
         DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == "com.android.support") {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion "26.+"
+            def requested = details.requested
+            if (requested.group == "com.android.support") {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion "26.+"
+                }
             }
-        }
     }
 }
 
@@ -47,26 +50,32 @@ dependencies {
     implementation project(path: ':storagelayer')
 
     // Core libraries
-    implementation Libs.support_appcompat_v7
-    annotationProcessor AnnotationProcessor.support
+    implementation Libs.app_compat
+    implementation Libs.android_material
+    kapt AnnotationProcessor.android_x
+    implementation Libs.kotlin_standard_lib_jdk_8
     implementation Libs.rxjava
     implementation Libs.rxAndroid
     implementation Libs.dagger
     implementation Libs.dagger_support
-    annotationProcessor AnnotationProcessor.dagger
+    kapt AnnotationProcessor.dagger
     implementation Libs.picasso
+    implementation Libs.constraint_layout
+    implementation Libs.timber
+    kapt Libs.dagger_kotlin
+    implementation Libs.volley
+    implementation Libs.msid
 
     // Optional
     implementation Libs.cardView
     implementation Libs.recyclerView
     implementation Libs.liveData
-    annotationProcessor AnnotationProcessor.liveData
-    implementation Libs.timber
+    kapt AnnotationProcessor.liveData
+    implementation Libs.stetho
 
     // Unit tests
     testImplementation Tests.junit
     testImplementation Tests.mockito
     androidTestImplementation Tests.testRunner
     androidTestImplementation Tests.espresso
-    compile project(path: ':storagelayer')
 }

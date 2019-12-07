@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Versions.compileSdkVersion
@@ -29,13 +32,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':entity')
 
-    implementation Libs.support_appcompat_v7
+    // Core
+    implementation Libs.app_compat
+    kapt AnnotationProcessor.android_x
+    implementation Libs.kotlin_standard_lib_jdk_8
+    implementation Libs.gson
 
     // Dagger
     implementation Libs.dagger
-    annotationProcessor AnnotationProcessor.dagger
-
-    implementation Libs.support_appcompat_v7
+    kapt AnnotationProcessor.dagger
+    kapt Libs.dagger_kotlin
 
     // RxJava
     implementation Libs.rxjava
@@ -43,7 +49,7 @@ dependencies {
     // Room
     implementation Libs.room
     implementation Libs.roomRxJava
-    annotationProcessor AnnotationProcessor.room
+    kapt AnnotationProcessor.room
 
     testImplementation Tests.junit
     androidTestImplementation Tests.testRunner
