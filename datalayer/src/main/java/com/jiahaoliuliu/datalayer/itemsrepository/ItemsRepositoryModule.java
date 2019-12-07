@@ -1,6 +1,6 @@
 package com.jiahaoliuliu.datalayer.itemsrepository;
 
-import com.jiahaoliuliu.networklayer.ItemService;
+import com.jiahaoliuliu.networklayer.ItemsService;
 import com.jiahaoliuliu.storagelayer.ItemsDatabase;
 
 import javax.inject.Singleton;
@@ -13,7 +13,7 @@ public class ItemsRepositoryModule {
 
     @Provides
     @Singleton
-    ItemsRepository providesItemsRepository(ItemService tmdbService, ItemsDatabase itemsDatabase) {
-        return new ItemsRepositoryImpl(tmdbService, itemsDatabase);
+    ItemsRepository providesItemsRepository(ItemsService itemsService, ItemsDatabase itemsDatabase) {
+        return new ItemsRepositoryImpl(itemsService, itemsDatabase);
     }
 }

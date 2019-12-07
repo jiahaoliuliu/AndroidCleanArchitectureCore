@@ -3,7 +3,7 @@ package com.jiahaoliuliu.datalayer.itemsrepository;
 import android.util.Log;
 
 import com.jiahaoliuliu.entity.Item;
-import com.jiahaoliuliu.networklayer.ItemService;
+import com.jiahaoliuliu.networklayer.ItemsService;
 import com.jiahaoliuliu.storagelayer.ItemImpl;
 import com.jiahaoliuliu.storagelayer.ItemsDatabase;
 
@@ -16,13 +16,13 @@ public class ItemsRepositoryImpl implements ItemsRepository {
 
     private static final String TAG = "ItemsRepositoryImpl";
 
-    private final ItemService tmdbService;
+    private final ItemsService itemsService;
     private final ItemsDatabase itemsDatabase;
     // Temporal memory for the items list
     private List<? extends Item> memoryCache = new ArrayList<>();
 
-    public ItemsRepositoryImpl(ItemService tmdbService, ItemsDatabase itemsDatabase) {
-        this.tmdbService = tmdbService;
+    public ItemsRepositoryImpl(ItemsService itemsService, ItemsDatabase itemsDatabase) {
+        this.itemsService = itemsService;
         this.itemsDatabase = itemsDatabase;
     }
 
@@ -39,7 +39,7 @@ public class ItemsRepositoryImpl implements ItemsRepository {
     }
 
     private Single<? extends List<? extends Item>> retrieveItemsListFromBackend() {
-        return tmdbService.getItemsList()
+        return itemsService.getItemsList()
              .map(itemsListBackend -> itemsListBackend.getItemsList())
              .doOnSuccess(itemsList -> {
                 // Updates the internal cache

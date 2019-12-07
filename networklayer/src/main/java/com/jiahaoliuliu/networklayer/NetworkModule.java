@@ -21,7 +21,7 @@ public class NetworkModule {
     }
 
     @Provides
-    public ItemService provideItemService() {
-        return retrofit.create(ItemService.class);
+    public ItemsService provideItemService() {
+        return retrofit.create(ItemsService.class);
     }
 }
