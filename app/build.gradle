@@ -61,6 +61,7 @@ dependencies {
     implementation Libs.recyclerView
     implementation Libs.liveData
     annotationProcessor AnnotationProcessor.liveData
+    implementation Libs.timber
 
     // Unit tests
     testImplementation Tests.junit

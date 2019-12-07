@@ -32,6 +32,7 @@ object Versions {
     val java = "8"
     val androidJavaVersion = 1.8
     val gradle = "3.2.0"
+    val timber = "4.7.1"
 }
 
 object Libs {
@@ -51,6 +52,7 @@ object Libs {
 
     // Others
     val gradle_plugin = "com.android.tools.build:gradle:${Versions.gradle}"
+    val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Optional
     val cardView = "com.android.support:cardview-v7:${Versions.cardView}"

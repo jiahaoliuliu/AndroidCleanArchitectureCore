@@ -1,10 +1,9 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore.itemslist;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jiahaoliuliu.androidcleanarchitecturecore.MainApplication;
 import com.jiahaoliuliu.androidcleanarchitecturecore.R;
@@ -14,9 +13,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ItemsListActivity extends AppCompatActivity implements ItemsListContract.View {
+import timber.log.Timber;
 
-    private static final String TAG = "ItemsListActivity";
+public class ItemsListActivity extends AppCompatActivity implements ItemsListContract.View {
 
     @Inject
     protected ItemsListContract.Presenter presenter;
@@ -44,7 +43,7 @@ public class ItemsListActivity extends AppCompatActivity implements ItemsListCon
 
     @Override
     public void showItemsList(List<? extends Item> itemsList) {
-        Log.v(TAG, "List of items retrieved " + itemsList.toString());
+        Timber.v("List of items retrieved " + itemsList.toString());
         itemsListAdapter.setItemsList(itemsList);
     }
 

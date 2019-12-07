@@ -1,7 +1,5 @@
 package com.jiahaoliuliu.datalayer.itemsrepository;
 
-import android.util.Log;
-
 import com.jiahaoliuliu.entity.Item;
 import com.jiahaoliuliu.networklayer.ItemsService;
 import com.jiahaoliuliu.storagelayer.ItemImpl;
@@ -11,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
+import timber.log.Timber;
 
 public class ItemsRepositoryImpl implements ItemsRepository {
-
-    private static final String TAG = "ItemsRepositoryImpl";
 
     private final ItemsService itemsService;
     private final ItemsDatabase itemsDatabase;
@@ -46,11 +43,11 @@ public class ItemsRepositoryImpl implements ItemsRepository {
                 saveItemsListToCache(itemsList);
                 // Save the content into the database
                 for (Item item: itemsList) {
-                    Log.v(TAG, "Trying to save " + item + " into the database");
+                    Timber.v("Trying to save " + item + " into the database");
                     itemsDatabase.itemDao().upsert(new ItemImpl(item));
                 }
              }).onErrorResumeNext(throwable -> {
-                 Log.e(TAG, "Error retrieving data from backend", throwable);
+                 Timber.e(throwable, "Error retrieving data from backend");
                  return Single.just(new ArrayList<>());
              });
     }
@@ -63,7 +60,7 @@ public class ItemsRepositoryImpl implements ItemsRepository {
         return itemsDatabase.itemDao().getAllItems()
                 .doOnSuccess(itemsList -> saveItemsListToCache(itemsList))
                 .onErrorResumeNext(throwable -> {
-                   Log.e(TAG, "Error retrieving data from the database ", throwable);
+                   Timber.e(throwable, "Error retrieving data from the database ");
                    return Single.just(new ArrayList<>());
                 });
     }

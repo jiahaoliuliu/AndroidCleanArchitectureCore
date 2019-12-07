@@ -1,16 +1,13 @@
 package com.jiahaoliuliu.androidcleanarchitecturecore.itemslist;
 
-import android.util.Log;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class ItemsListPresenter implements ItemsListContract.Presenter {
-
-    private static final String TAG = "ItemsListPresenter";
 
     private final ItemsListContract.Model model;
 
@@ -36,7 +33,7 @@ public class ItemsListPresenter implements ItemsListContract.Presenter {
                 itemsList -> view.showItemsList(itemsList),
                 throwable -> {
                     // TODO: Show the error on the screen
-                    Log.e(TAG, "Error getting the list of the items from backend ", throwable);
+                    Timber.e(throwable,"Error getting the list of the items from backend ");
                 }));
     }
 
