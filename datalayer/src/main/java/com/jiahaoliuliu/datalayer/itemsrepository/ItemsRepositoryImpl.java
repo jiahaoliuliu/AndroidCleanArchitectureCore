@@ -36,7 +36,7 @@ public class ItemsRepositoryImpl implements ItemsRepository {
     }
 
     private Single<? extends List<? extends Item>> retrieveItemsListFromBackend() {
-        return itemsService.getItemsList()
+        return itemsService.itemsList
              .map(itemsListBackend -> itemsListBackend.getItemsList())
              .doOnSuccess(itemsList -> {
                 // Updates the internal cache

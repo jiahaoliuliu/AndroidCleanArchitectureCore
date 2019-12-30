@@ -1,8 +1,13 @@
 apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':entity')
+
+    // Kotlin
+    implementation Libs.kotlin_standard_lib_jdk_8
+
     // Retrofit
     implementation Libs.retrofit
 
